@@ -3,7 +3,6 @@ package chapter2.exercises.ex1
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import kotlinx.collections.immutable.persistentMapOf
-import utils.SOLUTION_HERE
 
 // TODO: Enable tests by removing `!` prefix
 class Exercise1 : WordSpec({

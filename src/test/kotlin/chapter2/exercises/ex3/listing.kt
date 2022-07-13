@@ -2,7 +2,6 @@ package chapter2.exercises.ex3
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
-import utils.SOLUTION_HERE
 
 // TODO: Enable tests by removing `!` prefix
 class Exercise3 : WordSpec({

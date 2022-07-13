@@ -3,7 +3,6 @@ package chapter2.exercises.ex2
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import kotlinx.collections.immutable.persistentListOf
-import utils.SOLUTION_HERE
 
 // tag::init[]
 val <T> List<T>.tail: List<T>
