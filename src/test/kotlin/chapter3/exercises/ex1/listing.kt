@@ -8,15 +8,14 @@ import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 
 // tag::init[]
-fun <A> tail(xs: List<A>): List<A> {
-    when(xs) {
-        is Nil -> throw IllegalStateException("Nil cannot have a `tail`")
+fun <A> tail(xs: List<A>): List<A> =
+    when (xs) {
         is Cons -> xs.tail
+        is Nil -> throw IllegalStateException("Nil cannot have a `tail`")
     }
-}
 // end::init[]
 
-//TODO: Enable tests by removing `!` prefix
+// TODO: Enable tests by removing `!` prefix
 class Exercise1 : WordSpec({
     "list tail" should {
         "!return the the tail when present" {
