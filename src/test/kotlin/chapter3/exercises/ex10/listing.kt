@@ -13,7 +13,7 @@ fun productL(xs: List<Double>): Double =
     foldLeft(xs, 1.0, { a, b -> a * b })
 
 fun <A> lengthL(xs: List<A>): Int =
-    foldLeft(xs, 0, { _, acc -> 1 + acc })
+    foldLeft(xs, 0, { acc, _ -> acc + 1 })
 // end::init[]
 
 // TODO: Enable tests by removing `!` prefix
