@@ -13,12 +13,14 @@ import io.kotlintest.specs.WordSpec
 
 // tag::init[]
 fun <A> sequence(xs: List<Option<A>>): Option<List<A>> =
-    xs.foldRight(Some(Nil),
+    xs.foldRight(
+        Some(Nil),
         { oa1: Option<A>, oa2: Option<List<A>> ->
             map2(oa1, oa2) { a1: A, a2: List<A> ->
                 Cons(a1, a2)
             }
-        })
+        }
+    )
 // end::init[]
 
 // TODO: Enable tests by removing `!` prefix
