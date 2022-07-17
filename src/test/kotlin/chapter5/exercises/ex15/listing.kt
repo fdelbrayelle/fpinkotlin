@@ -1,29 +1,37 @@
 package chapter5.exercises.ex15
 
 import chapter3.List
+import chapter4.None
+import chapter4.Some
+import chapter5.Cons
 import chapter5.Stream
 import chapter5.toList
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
-import utils.SOLUTION_HERE
 import chapter3.Cons as ConsL
 import chapter3.Nil as NilL
 
-//TODO: Enable tests by removing `!` prefix
+// TODO: Enable tests by removing `!` prefix
 class Exercise15 : WordSpec({
 
-    //tag::tails[]
+    // tag::tails[]
     fun <A> Stream<A>.tails(): Stream<Stream<A>> =
+        Stream.unfold(this) { s: Stream<A> ->
+            when (s) {
+                is Cons ->
+                    Some(s to s.tail())
+                else -> None
+            }
+        }
+    // end::tails[]
 
-        SOLUTION_HERE()
-    //end::tails[]
-
-    fun <A, B> List<A>.map(f: (A) -> B): List<B> =
-
-        SOLUTION_HERE()
+    fun <A, B> List<A>.map(f: (A) -> B): List<B> = when (this) {
+        is ConsL -> ConsL(f(this.head), this.tail.map(f))
+        is NilL -> NilL
+    }
 
     "Stream.tails" should {
-        "!return the stream of suffixes of the input sequence" {
+        "return the stream of suffixes of the input sequence" {
             Stream.of(1, 2, 3)
                 .tails()
                 .toList()
@@ -31,8 +39,7 @@ class Exercise15 : WordSpec({
                 List.of(
                     ConsL(1, ConsL(2, ConsL(3, NilL))),
                     ConsL(2, ConsL(3, NilL)),
-                    ConsL(3, NilL),
-                    NilL
+                    ConsL(3, NilL)
                 )
         }
     }
