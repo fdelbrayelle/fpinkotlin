@@ -1,28 +1,37 @@
 package chapter6.exercises.ex3
 
-import chapter6.RNG
 // import chapter6.solutions.ex2.double
 // import chapter6.solutions.ex5.doubleR
+import chapter6.RNG
+import chapter6.solutions.ex2.double
+import chapter6.solutions.ex5.doubleR
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
-import utils.SOLUTION_HERE
 
-//TODO: Enable tests by removing `!` prefix
+// TODO: Enable tests by removing `!` prefix
 class Exercise3 : WordSpec({
 
-    //tag::init[]
-    fun intDouble(rng: RNG): Pair<Pair<Int, Double>, RNG> =
+    // tag::init[]
+    fun intDouble(rng: RNG): Pair<Pair<Int, Double>, RNG> {
+        val (i, rng2) = rng.nextInt()
+        val (d, rng3) = double(rng2)
+        return (i to d) to rng3
+    }
 
-        SOLUTION_HERE()
+    fun doubleInt(rng: RNG): Pair<Pair<Double, Int>, RNG> {
+        val (id, rng2) = intDouble(rng)
+        val (i, d) = id
+        return (d to i) to rng2
+    }
 
-    fun doubleInt(rng: RNG): Pair<Pair<Double, Int>, RNG> =
-
-        SOLUTION_HERE()
-
-    fun double3(rng: RNG): Pair<Triple<Double, Double, Double>, RNG> =
-
-        SOLUTION_HERE()
-    //end::init[]
+    fun double3(rng: RNG): Pair<Triple<Double, Double, Double>, RNG> {
+        val doubleRand = doubleR()
+        val (d1, _) = doubleRand(rng)
+        val (d2, _) = doubleRand(rng)
+        val (d3, rng2) = doubleRand(rng)
+        return Triple(d1, d2, d3) to rng2
+    }
+    // end::init[]
 
     "intDouble" should {
 
@@ -48,21 +57,21 @@ class Exercise3 : WordSpec({
                 Int.MAX_VALUE to rng2
         }
 
-        "!generate a pair of int and double" {
+        "generate a pair of int and double" {
             val (id, _) = intDouble(rng)
             val (i, d) = id
             i shouldBe Int.MAX_VALUE
             d shouldBe doubleBelowOne
         }
 
-        "!generate a pair of double and int" {
+        "generate a pair of double and int" {
             val (di, _) = doubleInt(rng)
             val (d, i) = di
             d shouldBe doubleBelowOne
             i shouldBe Int.MAX_VALUE
         }
 
-        "!generate a triple of double, double, double" {
+        "generate a triple of double, double, double" {
             val (ddd, _) = double3(rng)
             val (d1, d2, d3) = ddd
             d1 shouldBe doubleBelowOne
