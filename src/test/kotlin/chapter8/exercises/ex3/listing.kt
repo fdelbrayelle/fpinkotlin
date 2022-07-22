@@ -1,12 +1,13 @@
 package chapter8.exercises.ex3
 
-import utils.SOLUTION_HERE
-
-//tag::init[]
+// tag::init[]
 interface Prop {
     fun check(): Boolean
-    fun and(p: Prop): Prop =
-
-        SOLUTION_HERE()
+    fun and(p: Prop): Prop {
+        val checked = this.check() && p.check()
+        return object : Prop {
+            override fun check() = checked
+        }
+    }
 }
-//end::init[]
+// end::init[]
