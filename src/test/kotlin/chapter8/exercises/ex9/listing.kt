@@ -1,7 +1,6 @@
 package chapter8.exercises.ex9
 
 import chapter8.RNG
-import utils.SOLUTION_HERE
 
 typealias TestCases = Int
 
@@ -23,14 +22,30 @@ data class Falsified(
     override fun isFalsified(): Boolean = true
 }
 
-//tag::init[]
+// tag::init[]
 data class Prop(val run: (TestCases, RNG) -> Result) {
-    fun and(p: Prop): Prop =
+    fun and(p: Prop): Prop = Prop { n, rng ->
+        when (val prop = run(n, rng)) {
+            is Passed -> p.run(n, rng)
+            is Falsified -> prop
+        }
+    }
 
-        SOLUTION_HERE()
+    fun or(p: Prop): Prop = Prop { n, rng ->
+        when (val prop = run(n, rng)) {
+            is Falsified -> p.tag(prop.failure).run(n, rng)
+            is Passed -> prop
+        }
+    }
 
-    fun or(p: Prop): Prop =
-
-        SOLUTION_HERE()
+    private fun tag(msg: String) = Prop { n, rng ->
+        when (val prop = run(n, rng)) {
+            is Falsified -> Falsified(
+                "$msg : ${prop.failure}",
+                prop.successes
+            )
+            is Passed -> prop
+        }
+    }
 }
-//end::init[]
+// end::init[]
