@@ -1,24 +1,27 @@
 package chapter8.exercises.ex13
 
+import arrow.core.extensions.list.foldable.exists
 import chapter8.Gen
 import chapter8.Prop
 import chapter8.SGen
 import chapter8.sec4_1.run
-import utils.SOLUTION_HERE
+import kotlin.math.max
 
 fun main() {
-    //tag::init1[]
+    // tag::init1[]
     fun <A> nonEmptyListOf(ga: Gen<A>): SGen<List<A>> =
-
-        SOLUTION_HERE()
-    //end::init1[]
+        SGen { Gen.listOfN(max(1, it), ga) }
+    // end::init1[]
 
     val smallInt = Gen.choose(-10, 10)
 
-    //tag::init2[]
+    // tag::init2[]
     fun maxProp(): Prop =
-
-        SOLUTION_HERE()
-    //end::init2[]
+        Prop.forAll(nonEmptyListOf(smallInt)) { ns: List<Int> ->
+            val mx = ns.max()
+                ?: throw IllegalStateException("max on empty list")
+            !ns.exists { it > mx }
+        }
+    // end::init2[]
     run(maxProp())
 }
