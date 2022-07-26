@@ -3,7 +3,6 @@ package chapter9.exercises.ex4
 import chapter9.solutions.final.ParseError
 import chapter9.solutions.final.Parser
 import chapter9.solutions.final.ParserDsl
-import utils.SOLUTION_HERE
 
 abstract class Listing : ParserDsl<ParseError>() {
 
@@ -14,10 +13,13 @@ abstract class Listing : ParserDsl<ParseError>() {
     ): Parser<C> = TODO()
 
     init {
-        //tag::init1[]
+        // tag::init1[]
         fun <A> listOfN(n: Int, pa: Parser<A>): Parser<List<A>> =
-
-            SOLUTION_HERE()
-        //end::init1[]
+            if (n > 0)
+                map2(pa, many(pa)) { a, la ->
+                    listOf(a) + la
+                }
+            else succeed(emptyList())
+        // end::init1[]
     }
 }
