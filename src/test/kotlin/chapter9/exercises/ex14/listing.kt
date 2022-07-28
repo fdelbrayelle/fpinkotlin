@@ -1,26 +1,24 @@
 package chapter9.exercises.ex14
 
 import arrow.core.Option
+import arrow.core.lastOrNone
 import chapter9.solutions.final.Location
-import utils.SOLUTION_HERE
 
-//tag::init[]
-data class ParseError(val stack: List<Pair<Location, String>> = emptyList()) {
+// tag::init[]
+data class ParseError(
+    val stack: List<Pair<Location, String>> = emptyList()
+) {
 
     fun push(loc: Location, msg: String): ParseError =
-
-        SOLUTION_HERE()
+        this.copy(stack = listOf(loc to msg) + stack)
 
     fun label(s: String): ParseError =
-
-        SOLUTION_HERE()
+        ParseError(latestLoc().map { it to s }.toList())
 
     fun latest(): Option<Pair<Location, String>> =
-
-        SOLUTION_HERE()
+        stack.lastOrNone()
 
     fun latestLoc(): Option<Location> =
-
-        SOLUTION_HERE()
+        latest().map { it.first }
 }
-//end::init[]
+// end::init[]
